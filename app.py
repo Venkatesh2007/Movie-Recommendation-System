@@ -2,6 +2,8 @@ import streamlit as st
 import pickle
 import requests
 import pandas as pd
+import gzip
+
 
 API_KEY = 'f620d691cd9f3bd55423dc165c00a7bd'  
 
@@ -46,8 +48,10 @@ def recommend(movie):
 st.title("🎬 Movie Recommender System")
 
 # Load movie data and similarity matrix
-movies = pickle.load(open('movies.pkl', 'rb'))
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+with gzip.open('movies.pkl.gz', 'rb') as f:
+    movies = pickle.load(f)
+with gzip.open('similarity.pkl.gz', 'rb') as f:
+    similarity = pickle.load(f)
 
 # Dropdown menu to select movie
 movie_list = movies['title'].str.title().values
